@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "128976120820",
+    "firebase_url": "https://mykerberos-2a68f.firebaseio.com",
+    "project_id": "mykerberos-2a68f",
+    "storage_bucket": "mykerberos-2a68f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128976120820:android:b5cd7928a4b4f89b",
+        "android_client_info": {
+          "package_name": "project.iot_software.mykerberos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128976120820-5u56f508531j1dh2vmfml9euqhv0m3in.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "project.iot_software.mykerberos",
+            "certificate_hash": "52965999ee2f702cf57492b4ae18563b9811b107"
+          }
+        },
+        {
+          "client_id": "128976120820-1scc37q2gdfbf3tedv2c3kmn9f02d4ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAgNYmAofYzkGUiTPBMYg4fDAzTLuy5NU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128976120820-1scc37q2gdfbf3tedv2c3kmn9f02d4ad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

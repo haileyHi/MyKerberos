@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    tools:context=".AuthActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffae00"
+        android:padding="16dp"
+        android:gravity="center"
+        tools:context=".AuthActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="50dp">
+            <EditText
+                android:id="@+id/edit"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="시리얼 번호를 입력하세요"
+                android:textColorHint="#FFFFFF"
+                android:outlineAmbientShadowColor="#000000"
+                android:outlineSpotShadowColor="#000000"
+                android:textColorHighlight="#000000"
+                android:textColorLink="#000000"
+                android:shadowColor="#000000"
+                android:lines="1"
+                android:textSize="15dp"/>
+
+            <Button
+                android:text="인증"
+                android:textColor="#ffae00"
+                android:layout_width="50dp"
+                android:background="#ffffff"
+                android:onClick="click"
+                android:layout_marginTop="10dp"
+                android:layout_height="35dp" />
+            <TextView
+                android:id="@+id/first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_hello"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:layout_height="48dp" />
+
+        <!--VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:text= "My Kerberos"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#999999"
+            android:layout_height="40dp" />
+
+
+        <ListView
+            android:id="@+id/listView_file"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"></ListView>
+
+        <Button
+            android:layout_width="100dp"
+            android:text="달력 보기"
+            android:onClick="toCalendar"
+            android:layout_height="50dp" /-->
+
+        <!--Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="112"
+            android:onClick="callTo112"
+            android:layout_gravity="right"
+            android:background="@drawable/item_button" /-->
+
+    </LinearLayout>
+
+
+    <!--Button
+        android:id="@+id/button0"
+        android:layout_width="match_parent"
+        android:textSize="15dp"
+        android:onClick="playVideo1"
+        android:layout_height="70dp" />
+    <Button
+
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:textSize="15dp"
+        android:onClick="playVideo2"
+        android:layout_height="70dp" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:textSize="15dp"
+        android:onClick="playVideo3"
+        android:layout_height="70dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:textSize="15dp"
+        android:onClick="playVideo4"
+        android:layout_height="70dp" /-->
+
+</LinearLayout>
