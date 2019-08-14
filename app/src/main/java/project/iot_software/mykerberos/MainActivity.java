@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,12 +15,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab_siren, fab_call, fab_text;
     private Animation fab_open,fab_close;
     private boolean isFabOpen = false;
+    long pressedTime;
 
     //달력 선택 시 해당 요일에 촬영된 영상 확인 가능
     private static MaterialCalendarView materialCalendarView;
@@ -67,7 +74,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_call.setOnClickListener(this);
         fab_text.setOnClickListener(this);
 
-        Toast.makeText(this,"메인 액티비티 실행",Toast.LENGTH_LONG).show();
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("TAG", msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+//        Toast.makeText(this,"메인 액티비티 실행",Toast.LENGTH_LONG).show();
 
     }
 
@@ -143,6 +170,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fab_text.setClickable(true);
             isFabOpen = true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - pressedTime < 20000) {
+            finishAffinity();
+            return;
+        }
+        Toast.makeText(this,"'뒤로'버튼 한번 더 누르시면 앱이 종료됩니다.",Toast.LENGTH_SHORT).show();
+        pressedTime = System.currentTimeMillis();
     }
 }
 
