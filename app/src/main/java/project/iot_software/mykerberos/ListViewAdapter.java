@@ -15,25 +15,24 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListViewAdapter extends ArrayAdapter {
+public class ListViewAdapter extends BaseAdapter {
 
-    private List<ListViewItem> listViewItemList = new ArrayList<>();
     private Context ctx;
-    //데이터 소스 여기서 추가?
+    private List<ListViewItem> mData = new ArrayList<>();
 
-    public ListViewAdapter(@NonNull Context context, int resource, @NonNull List objects, List<ListViewItem> listViewItemList) {
-        super(context, resource, objects);
-        this.listViewItemList = listViewItemList;
+    public ListViewAdapter(List<ListViewItem> data){
+        this.mData = data;
     }
+
 
     @Override
     public int getCount() {
-        return listViewItemList.size();
+        return mData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position);
+        return mData.get(position);
     }
 
     @Override
@@ -47,22 +46,19 @@ public class ListViewAdapter extends ArrayAdapter {
         final Context context = parent.getContext();
 
         if(view == null){
-            LayoutInflater inflater = LayoutInflater.from(ctx);
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 //            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.video_list_item,parent,false);
+            view = inflater.inflate(R.layout.info_list_item,parent,false);
         }
 
         //화면에 표시될 View로부터 위젯에 관한 참조 획득
-        ImageView thumbImageView = (ImageView) view.findViewById(R.id.thumbNail);
-        TextView titleTextView = (TextView) view.findViewById(R.id.text_videoTime);
-        TextView subTextView = (TextView) view.findViewById(R.id.text_isVideoChecked);
+        TextView titleTextView = (TextView) view.findViewById(R.id.text_deviceInfo);
+        TextView subTextView = (TextView) view.findViewById(R.id.text_deviceValue);
 
+        ListViewItem listViewItem = mData.get(position);
         /* 이 아래 부분을 어떻게 수정하고 메인 액티비티의 DB 정보 불러오기 중간에 있는 for문이랑 video_list_item이랑 어떻게 매칭하면 될것 같은데*/
-        ListViewItem listViewItem = listViewItemList.get(position);
-
-        thumbImageView.setImageBitmap(listViewItem.getThumbnail());
         titleTextView.setText(listViewItem.getTitleStr());
-        subTextView.setText(listViewItem.getCalendar());
+        subTextView.setText(listViewItem.getValueStr());
 
         return view;
     }

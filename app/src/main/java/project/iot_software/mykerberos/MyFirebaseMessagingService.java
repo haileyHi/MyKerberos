@@ -39,6 +39,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri notifySound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+
+
         String channel_id = "MyKeroChan";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,channel_id);
@@ -57,7 +59,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel notichannel = new NotificationChannel(channel_id, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(notichannel);
         }
-        notificationManager.notify(0,builder.build());
+        //알람 여러개 수신하기 위한 id값 다르게 부여.
+        notificationManager.notify((int) System.currentTimeMillis(),builder.build());
     }
 
 }

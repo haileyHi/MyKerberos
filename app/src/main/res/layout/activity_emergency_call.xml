@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    tools:context=".EmergencyCall">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tb2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:titleTextColor="#000000"
+        app:title="비상 연락망 설정"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffd966"
+        android:padding="16dp"
+        android:gravity="center"
+        tools:context=".EmergencyCall">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/phone_image"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="현재 등록된 전화번호"
+            android:gravity="center"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/setPhoneNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01012345678"
+            android:inputType="phone"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="50dp">
+
+            <EditText
+                android:id="@+id/phonenumber"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:inputType="phone"
+                android:hint="비상연락망으로 설정할 번호"
+                android:textColorHint="#FFFFFF"
+                android:lines="1"
+                android:textSize="15dp"/>
+
+            <Button
+                android:text="설정"
+                android:textColor="#ffae00"
+                android:layout_width="50dp"
+                android:background="#ffffff"
+                android:onClick="emergencyCallSetting"
+                android:layout_marginTop="10dp"
+                android:layout_height="35dp" />
+            <TextView
+                android:id="@+id/first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_hello"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:layout_height="48dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

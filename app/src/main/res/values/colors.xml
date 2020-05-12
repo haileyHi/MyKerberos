@@ -6,6 +6,9 @@
     <color name="colorSecondary">#00BCD4</color>
     <color name="colorSecondaryDark">#008BA3</color>
     <color name="colorSecondaryLight">#62EFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDeviceBg">#E4E4E3</color>
+    <color name="colorYellowOrange">#ffd966</color>
 
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>

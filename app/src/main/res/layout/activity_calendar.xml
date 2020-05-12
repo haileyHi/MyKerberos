@@ -5,12 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tb1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:titleTextColor="#000000"
+        app:title="달력보기"/>
+
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="380dp"
         app:mcv_selectionColor="@color/colorAccent"
         app:mcv_showOtherDates="defaults"/>
 
@@ -19,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="8dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"/>
 
 </LinearLayout>

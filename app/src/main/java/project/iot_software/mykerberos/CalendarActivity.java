@@ -10,7 +10,9 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,8 +21,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
@@ -47,7 +51,6 @@ public class CalendarActivity extends AppCompatActivity{
     private static MaterialCalendarView materialCalendarView;
 
     //    static CalendarDay selectedDay = null;
-    static boolean isSelected;
     static String selectedDay;
     SimpleDateFormat dateFormat;
 
@@ -56,46 +59,36 @@ public class CalendarActivity extends AppCompatActivity{
     List<String> fileArray = new ArrayList<String>();
     List<String> fileOfTheDate = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
-//    ListViewAdapter adapter;
 
-    private MyVideoView videoView;
-    Bitmap thumbnail; //썸네일이 필요하다면 이것 사용하기.
-    static boolean hasBeenCalled = false; //재생된 적 있는 비디오인지 판별
-    ProgressDialog progressDialog;
-
-    FirebaseDatabase fDatabase;//파이어베이스 데이터베이스 객체
-    DatabaseReference dReference;
+    private FirebaseDatabase fDatabase;//파이어베이스 데이터베이스 객체
+    private DatabaseReference dReference;
     ChildEventListener childEListener;
 
-    FirebaseStorage fStorage;// 파이어베이스 저장소 객체
-    StorageReference storageReference;
+    private FirebaseStorage fStorage;// 파이어베이스 저장소 객체
+    private StorageReference storageReference;
     String clickedFile; //클릭한 리스트 아이템 확인
     Map<String, String> filenameAndURL = new HashMap<>();
-    Map<String, Bitmap> filenameAndThumbnail = new HashMap<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        //저장소 접근 위한 객체 생성
-        if(!hasBeenCalled){
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-            hasBeenCalled = true;
-        }
+        //백 버튼 추가
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tb1);
+        setSupportActionBar(toolbar);
 
-        //액션바 메뉴
-//        getSupportActionBar().setTitle("Door");
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setHomeAsUpIndicator(R.drawable.backbutton);
 
         listView = (ListView) findViewById(R.id.listView_file);
-        videoView = (MyVideoView) findViewById(R.id.videoView);
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
-
 
         //달력설정
         materialCalendarView.addDecorators(
@@ -117,9 +110,10 @@ public class CalendarActivity extends AppCompatActivity{
 
                 for(int i = 0; i<fileArray.size() -1 ; i++) {
                     StringTokenizer fileDate = new StringTokenizer(fileArray.get(i),"_");
-                    fileDate.nextToken();//앞에 붙은 비디오 제거
-                    trimmedDate = fileDate.nextToken(); // 두번째 날짜 가져다가 스트링에 저장
-                    trimmedTime = fileDate.nextToken();
+                    trimmedDate = fileDate.nextToken(); // 날짜 가져다가 스트링에 저장
+                    Log.d("dateCheck", trimmedDate);
+                    trimmedTime = fileDate.nextToken();//촬영 시간 스트링에 저장
+                    Log.d("timeCheck", trimmedTime);
 
                     if (selectedDay.equals(trimmedDate)) {//달력에서 누른 날짜를 파일명에서 추출한 날짜랑 비교
                         fileOfTheDate.add(trimmedDate + " " + trimmedTime); //리스트어레이에 뽑은 날짜 이름 넣기.
@@ -130,7 +124,6 @@ public class CalendarActivity extends AppCompatActivity{
             }
         });
 
-
         //데이터베이스
         initDatabase();//DB 초기화
 
@@ -139,15 +132,8 @@ public class CalendarActivity extends AppCompatActivity{
         storageReference = fStorage.getReferenceFromUrl("gs://mykerberos-2a68f.appspot.com");//firebase storage 주소 참조해 저장소ref 생성
 
         //리스트뷰에 뿌려줄 아이템 정보와 adapter 연결 (누른 date 의 값을 받아와서 해당 날짜의 영상만 보여주자)
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,fileOfTheDate); //R.layout.video_list_item
-//        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,fileArray);
-//        adapter = new ListViewAdapter(this,);           //adapter를 어레이 어댑터 아닌 listview adapter사용할때의 코드임
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,fileOfTheDate); //R.layout.info_list_item
         listView.setAdapter(adapter);
-
-
-        //push notification 위한 빌더 생성
-//        NotificationManager notificationManager = (NotificationManager) MainActivity.this.getSystemService(MainActivity.this.NOTIFICATION_SERVICE);
-//        Intent intent1 = new Intent(MainActivity.this.getApplicationContext(), MainActivity.class);
 
         //DB 정보 읽어오기
         dReference = fDatabase.getReference("videos");
@@ -158,24 +144,29 @@ public class CalendarActivity extends AppCompatActivity{
 
                 for(DataSnapshot detectionInfo : dataSnapshot.getChildren()){
 
+                    //raspberry에서 firebase로 올라갈때 {\"filename\" : \"파일명\", \"fileURL\" : \"파일경로\"}인 경우와 {\"fileURL\" : \"파일경로\", \"filename\" : \"파일명\"} 인 경우 고려하기
+                    String firstKey, firstValue, secondValue;
+                    String filename, fileURL;
+
                     String contents = detectionInfo.getValue().toString();
-                    StringTokenizer stringTokenizer = new StringTokenizer(contents,"\"",false); //{\"filename\" : \"파일명\", \"fileURL\" : \"파일경로\"}
-                    stringTokenizer.nextToken();
-                    stringTokenizer.nextToken();
-                    stringTokenizer.nextToken();
-                    String filename = stringTokenizer.nextToken();
-                    stringTokenizer.nextToken();
-                    stringTokenizer.nextToken();
-                    stringTokenizer.nextToken();
-                    String fileURL = stringTokenizer.nextToken();
-                    //썸네일 추출
-                    Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(fileURL, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                    Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 360, 480);
-                    //이 값을 읽어서 custom list item 아이디에 잘 넣어주어야 함.
+                    StringTokenizer stringTokenizer = new StringTokenizer(contents, "\"", false); //{\"filename\" : \"파일명\", \"fileURL\" : \"파일경로\"}
+                    stringTokenizer.nextToken();            //    {
+                    firstKey = stringTokenizer.nextToken(); //    filename  || fileURL     - firstkey가 아닌 게 secondKey이므로 secondKey는 별도로 저장할 필요없음.
+                    stringTokenizer.nextToken();            //    :
+                    firstValue = stringTokenizer.nextToken();
+                    stringTokenizer.nextToken();            //    ,
+                    stringTokenizer.nextToken();            //    fileURL   || filename
+                    stringTokenizer.nextToken();            //    :
+                    secondValue = stringTokenizer.nextToken();
+                    if(firstKey.equals("filename")) {
+                        filename = firstValue;
+                        fileURL = secondValue;
+                    }else {
+                        filename = secondValue;
+                        fileURL = firstValue;
+                    }
                     fileArray.add(/*time + " : " + */filename);
                     filenameAndURL.put(filename,fileURL);
-                    filenameAndThumbnail.put(filename, thumbnail);
-
                 }
                 adapter.notifyDataSetChanged();
                 listView.setSelection(adapter.getCount() - 1);
@@ -187,43 +178,27 @@ public class CalendarActivity extends AppCompatActivity{
             }
         });
 
-
-
         listView.setOnItemClickListener((parent, view,position, id) ->{
             clickedFile = ((TextView)view).getText().toString();
             StringTokenizer stringTokenizer = new StringTokenizer(clickedFile," ");
             String listDate = stringTokenizer.nextToken();
             String listTime = stringTokenizer.nextToken();
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(filenameAndURL.get("video_"+listDate+"_"+listTime)));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(filenameAndURL.get(listDate+"_"+listTime)));
             startActivity(intent);
         });
 
-        /*storageReference.child(" ").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.d("Download: ", uri.toString());
+    }
 
-                //비디오뷰 비디오 재생
-                videoView.setMediaController(new MediaController(MainActivity.this));
-                videoView.setVideoURI(uri);
-                videoView.requestFocus();
-                videoView.start();
-
-                //비디오 재생전 로딩 프로그레스 다이얼로그
-                progressDialog = ProgressDialog.show(MainActivity.this, "잠시만 기다려주세요 ...","대기 중",true);
-                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        progressDialog.dismiss();
-                    }
-                });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                return true;
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //실패
-            }
-        });*/
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //데이터베이스 변화 적용하기 /*참고 출처 : https://firebase.google.com/docs/database/android/lists-of-data*/
@@ -237,18 +212,6 @@ public class CalendarActivity extends AppCompatActivity{
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String newFile = dataSnapshot.getValue().toString();
-                NotificationManager notificationManager = (NotificationManager) CalendarActivity.this.getSystemService(CalendarActivity.this.NOTIFICATION_SERVICE);
-                Intent intent1 = new Intent(CalendarActivity.this.getApplicationContext(), MainActivity.class);
-
-                Notification.Builder builder = new Notification.Builder(getApplicationContext());
-                intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                PendingIntent pendingNotificationIntent = PendingIntent.getActivity(CalendarActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                builder.setSmallIcon(R.drawable.ic_notifications_active_yellow_24dp).setTicker("HETT").setWhen(System.currentTimeMillis())
-                        .setNumber(1).setContentTitle("우리집 케르베로스").setContentText("누군가의 방문이 감지됐어요!")
-                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE).setContentIntent(pendingNotificationIntent).setAutoCancel(true).setOngoing(true);
-                notificationManager.notify(1, builder.build());
             }
 
             @Override

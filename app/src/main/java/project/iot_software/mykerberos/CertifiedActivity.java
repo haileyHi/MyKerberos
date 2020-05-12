@@ -65,7 +65,6 @@ public class CertifiedActivity extends AppCompatActivity implements ActionMode.C
 
     Map<String, String> keyValue = new HashMap<>();//키 값 담기.
 
-
     Bitmap thumbnail; //썸네일이 필요하다면 이것 사용하기.
     static boolean hasBeenCalled = false; //재생된 적 있는 비디오인지 판별
     ProgressDialog progressDialog;
@@ -226,6 +225,7 @@ public class CertifiedActivity extends AppCompatActivity implements ActionMode.C
                         nr = 0;
                         MenuInflater inflater = getMenuInflater();
                         inflater.inflate(R.menu.contextual_menu,menu);
+                        getSupportActionBar().hide();
                         return true;
                     }
 

@@ -1,185 +1,135 @@
 package project.iot_software.mykerberos;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private Context mContext;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-    private Button realtimeCamButton;
-    private ImageButton  doorCheckButton;
-    private MaterialButton calendarButton;
-    private FloatingActionButton fab_siren, fab_call, fab_text;
-    private Animation fab_open,fab_close;
-    private boolean isFabOpen = false;
-    long pressedTime;
+import java.util.Date;
+import java.util.concurrent.locks.Lock;
 
-    //달력 선택 시 해당 요일에 촬영된 영상 확인 가능
-    private static MaterialCalendarView materialCalendarView;
+public class MainActivity extends AppCompatActivity {
+    public static final String SHARED_PREF_FIRST_USER_KEY = "1000";
+    public static final String SHARED_PREF_PASSWORD = "2000";
+    String serialNumber;
 
-    static CalendarDay selectedDay = null;
-    static boolean isSelected;
-
-    //
-
+    public static final String SHARED_PREF_YEAR = "7000";
+    public static final String SHARED_PREF_MONTH = "8000";
+    public static final String SHARED_PREF_DATE = "9000";
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         View decoView = getWindow().getDecorView();
         decoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        mContext = getApplicationContext();
 
-        fab_open = AnimationUtils.loadAnimation(this, R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(this, R.anim.fab_close);
+        EditText et = (EditText)findViewById(R.id.edit);
 
-        calendarButton = (MaterialButton) findViewById(R.id.checkCalendar);
-        realtimeCamButton = (Button) findViewById(R.id.realtimeCam);
-        doorCheckButton = (ImageButton) findViewById(R.id.doorCheck);
-        calendarButton.setOnClickListener(this);
-        realtimeCamButton.setOnClickListener(this);
-        doorCheckButton.setOnClickListener(this);
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        int firstUser = sharedPref.getInt(SHARED_PREF_FIRST_USER_KEY, 2);
+        Log.d("firstuser", "" + firstUser);
 
-        fab_siren = (FloatingActionButton) findViewById(R.id.fabSiren);
-        fab_call = (FloatingActionButton) findViewById(R.id.fabCall);
-        fab_text = (FloatingActionButton) findViewById(R.id.fabText);
-        fab_siren.setOnClickListener(this);
-        fab_call.setOnClickListener(this);
-        fab_text.setOnClickListener(this);
+        FirebaseDatabase fDatabase;//파이어베이스 데이터베이스 객체
+        DatabaseReference dReference;
+        fDatabase = FirebaseDatabase.getInstance();
+        dReference = fDatabase.getReference("serial");
+        dReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot detectionInfo : dataSnapshot.getChildren()){
+                    serialNumber = detectionInfo.getValue().toString();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),"Failed to read value",Toast.LENGTH_LONG).show();
+            }
+        });
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("TAG", "getInstanceId failed", task.getException());
-                            return;
-                        }
+        if(firstUser == 3){ //시리얼 번호 일치하는
+            SharedPreferences sp = getSharedPreferences("pw", Context.MODE_PRIVATE);
+            String p = sp.getString(SHARED_PREF_PASSWORD, "-1");
 
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d("TAG", msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-//        Toast.makeText(this,"메인 액티비티 실행",Toast.LENGTH_LONG).show();
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.checkCalendar:
-                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+            if(p.equals("-1")){
+                Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-//                finish();
-                break;
-            case R.id.fabSiren:
-                toggleFab();
-                break;
-            case R.id.fabCall:
-                toggleFab();
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:/010-8536-8243"));
-                startActivity(callIntent);
-                break;
-            case R.id.fabText:
-                toggleFab();
-                //말풍선 띄워서 메시지 입력 후 카톡으로 보내기
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //Activity 이름.this
-                builder.setTitle("카카오톡으로 보내기");
+                finish();
+            }
+            else {
+                Intent intent = new Intent(getApplicationContext(), LockActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                finish();
+            }
+        }
+        else if (firstUser == 1) { //최초는 아닌데
+            Log.d("firstuser", ""+firstUser);
+        }
+        else if (firstUser == 2) {
+            Log.d("firstuser", ""+firstUser);
+            saveUserIsNotFirst();
+            Log.d("firstuser", ""+firstUser);
+        }
 
-                final EditText text = new EditText(MainActivity.this);//액티비티 이름.this
-                builder.setView(text); //에딧 텍스트 추가해서 빌더 생성
+    }
+    private void saveUserIsNotFirst() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(SHARED_PREF_FIRST_USER_KEY, 1);
+        editor.commit();
+    }
 
-                Intent textIntent = new Intent(Intent.ACTION_SEND);
 
-                builder.setPositiveButton("보내기", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String message = text.getText().toString();
+    public void click(View v) {
+        EditText et = (EditText)findViewById(R.id.edit);
+        String text = et.getText().toString();
 
-                        textIntent.setType("text/plain");
-                        textIntent.putExtra(Intent.EXTRA_TEXT,message);
-                        textIntent.setPackage("com.kakao.talk");
-                        startActivity(textIntent);
 
-                        dialog.dismiss();
-                    }
-
-                });
-
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.show();
-
-                break;
+        if(text.equals(/*"123456"*/serialNumber)){
+            Log.d("serialserial", serialNumber);
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(SHARED_PREF_FIRST_USER_KEY, 3);
+            editor.apply();
+            Date d = new Date();
+            int year = d.getYear() + 1900 + 1;
+            int month = d.getMonth() + 1;
+            int date = d.getDate();
+            SharedPreferences sp = getSharedPreferences("date", Context.MODE_PRIVATE);
+            SharedPreferences.Editor e = sp.edit();
+            e.putInt(SHARED_PREF_YEAR, year);
+            e.putInt(SHARED_PREF_MONTH, month);
+            e.putInt(SHARED_PREF_DATE, date);
+            e.apply();
+            Log.d("datedate", ""+year+" " + month + " " + date);
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            finish();
+        }
+        else{
+            ImageView inputImageView = (ImageView)findViewById(R.id.inputiv);
+            ImageView notSameImageView = (ImageView)findViewById(R.id.notsameiv);
+            inputImageView.setVisibility(View.INVISIBLE);
+            notSameImageView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void toggleFab(){
-        if(isFabOpen){
-            fab_siren.setImageResource(R.drawable.ic_notifications_active_yellow_24dp);
-            fab_call.startAnimation(fab_close);
-            fab_text.startAnimation(fab_close);
-            fab_call.setClickable(false);
-            fab_text.setClickable(false);
-            isFabOpen = false;
-        }else {
-            fab_siren.setImageResource(R.drawable.ic_close_black_24dp);
-            fab_call.startAnimation(fab_open);
-            fab_text.startAnimation(fab_open);
-            fab_call.setClickable(true);
-            fab_text.setClickable(true);
-            isFabOpen = true;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (System.currentTimeMillis() - pressedTime < 20000) {
-            finishAffinity();
-            return;
-        }
-        Toast.makeText(this,"'뒤로'버튼 한번 더 누르시면 앱이 종료됩니다.",Toast.LENGTH_SHORT).show();
-        pressedTime = System.currentTimeMillis();
-    }
 }
-

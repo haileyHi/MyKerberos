@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">MyKerberos</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">내 집은 내가 지킨다!</string>
+    <string name="nav_header_subtitle">현관을 알짱 거리는 위협을 전부 없애는 그날까지</string>
+    <string name="nav_header_desc">우리집 케르베로스</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_device">등록된 기기 확인</string>
+    <string name="menu_gallery">저장된 영상 목록</string>
+    <string name="menu_calendar">날짜별 영상 확인</string>
+    <string name="menu_tools">환경설정</string>
+    <string name="menu_production">개발자 정보</string>
 </resources>
