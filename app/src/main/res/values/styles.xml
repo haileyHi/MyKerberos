@@ -47,4 +47,9 @@
     <style name="TranslucentActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="explain_text" parent="android:Widget.TextView">
+        <item name="fontFamily">@font/spoqahans</item>
+        <item name="fontWeight">500</item>
+    </style>
 </resources>
