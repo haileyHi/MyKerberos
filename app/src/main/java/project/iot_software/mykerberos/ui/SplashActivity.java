@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.setting;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.setting.BeforeSetPassword;
+import project.iot_software.mykerberos.ui.setting.PasswordSetting;
 
 public class PasswordActivity extends AppCompatActivity {
     private RadioGroup radioGroup;

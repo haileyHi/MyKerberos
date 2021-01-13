@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.home;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,20 +10,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -49,6 +45,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.calendar.CalendarActivity;
 
 public class CertifiedActivity extends AppCompatActivity implements ActionMode.Callback {
     private static final String TAG = "MainActivity";

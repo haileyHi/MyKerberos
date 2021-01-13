@@ -1,19 +1,16 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.calendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import project.iot_software.mykerberos.R;
 
 public class ListViewAdapter extends BaseAdapter {
 

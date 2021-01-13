@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,7 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SerialNumber extends AppCompatActivity {
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.calendar.ListViewAdapter;
+import project.iot_software.mykerberos.ui.calendar.ListViewItem;
+
+public class SerialNumberCheckActivity extends AppCompatActivity {
     TextView tv;
     String serialNumber;
 

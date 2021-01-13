@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.setting;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,6 +7,8 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import project.iot_software.mykerberos.R;
 
 public class DeveloperInformation extends AppCompatActivity {
 

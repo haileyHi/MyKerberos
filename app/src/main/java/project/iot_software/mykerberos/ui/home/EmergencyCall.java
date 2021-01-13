@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.home;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import project.iot_software.mykerberos.R;
 
 public class EmergencyCall extends AppCompatActivity {
     public static final String SHARED_PREF_PHONENUMBER = "3000";

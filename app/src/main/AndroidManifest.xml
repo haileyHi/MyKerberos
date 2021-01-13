@@ -19,23 +19,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".ShareActivity"></activity>
-        <activity android:name=".DeveloperInformation" />
-        <activity android:name=".LockActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CertifiedActivity" />
-        <activity android:name=".SerialNumber" />
-        <activity android:name=".EmergencyCall" />
-        <activity android:name=".BeforeSetPassword" />
-        <activity android:name=".PasswordSetting" />
-        <activity android:name=".PasswordActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ui.home.ShareActivity"></activity>
+        <activity android:name=".ui.setting.DeveloperInformation" />
+        <activity android:name=".ui.setting.LockActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.home.CertifiedActivity" />
+        <activity android:name=".ui.setting.SerialNumberCheckActivity" />
+        <activity android:name=".ui.home.EmergencyCall" />
+        <activity android:name=".ui.setting.BeforeSetPassword" />
+        <activity android:name=".ui.setting.PasswordSetting" />
+        <activity android:name=".ui.setting.PasswordActivity" />
+        <activity android:name=".ui.setting.SettingsActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- 스플래시 액티비티 -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,10 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".ui.calendar.CalendarActivity" />
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".firebase.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

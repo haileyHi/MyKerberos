@@ -7,7 +7,7 @@
     android:background="#e4e4e3"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".HomeActivity"
+    tools:context=".ui.home.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
     <LinearLayout
@@ -17,6 +17,13 @@
         android:background="#e4e4e3"
         android:backgroundTint="#e4e4e3"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="320dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#e4e4e3"
+            android:src="@drawable/speaker_img" />
 
         <LinearLayout
             android:layout_width="360dp"
@@ -32,13 +39,6 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="45dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="320dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#e4e4e3"
-            android:src="@drawable/speaker_img" />
 
         <TextView
             android:layout_width="match_parent"

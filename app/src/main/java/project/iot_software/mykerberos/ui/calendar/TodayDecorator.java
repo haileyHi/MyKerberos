@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.calendar;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

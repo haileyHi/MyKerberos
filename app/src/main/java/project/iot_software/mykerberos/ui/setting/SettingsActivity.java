@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.setting;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.home.EmergencyCall;
 
 public class SettingsActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;

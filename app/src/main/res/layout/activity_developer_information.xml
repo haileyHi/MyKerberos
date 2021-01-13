@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ffd966"
     android:orientation="vertical"
-    tools:context=".DeveloperInformation">
+    tools:context=".ui.setting.DeveloperInformation">
 
     <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tb2"
@@ -26,29 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:gravity="center"
-            android:text="성신여자대학교 IT학부 김혜인"
+            android:text="@string/hi"
             android:textSize="15dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:gravity="center"
-            android:text="20161100@sungshin.ac.kr"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="성신여자대학교 정보시스템공학과 박형주"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:gravity="center"
-            android:text="20161109@sungshin.ac.kr"
+            android:text="@string/hi_email"
             android:textSize="15dp" />
 
         <TextView
@@ -56,14 +41,29 @@
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="성신여자대학교 컴퓨터공학과 김효은"
+            android:text="@string/hj"
             android:textSize="15dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:gravity="center"
-            android:text="20161259@sungshin.ac.kr"
+            android:text="@string/hj_email"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/he"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="@string/he_email"
             android:textSize="15dp" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center"
-            android:text="TEAM.ZIPJIKIMEE"
+            android:text="@string/teamName"
             android:textSize="25dp" />
 
         <ImageView

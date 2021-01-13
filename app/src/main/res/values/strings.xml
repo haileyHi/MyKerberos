@@ -14,4 +14,11 @@
     <string name="menu_calendar">날짜별 영상 확인</string>
     <string name="menu_tools">환경설정</string>
     <string name="menu_production">개발자 정보</string>
+    <string name="hi">KHI</string>
+    <string name="hi_email">*</string>
+    <string name="hj">PHJ</string>
+    <string name="hj_email">*</string>
+    <string name="he">KHE</string>
+    <string name="he_email">*</string>
+    <string name="teamName">TEAM.ZIPJIKIMEE</string>
 </resources>

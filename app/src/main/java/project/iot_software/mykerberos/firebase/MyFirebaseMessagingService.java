@@ -1,6 +1,5 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.firebase;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +14,9 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.MainActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

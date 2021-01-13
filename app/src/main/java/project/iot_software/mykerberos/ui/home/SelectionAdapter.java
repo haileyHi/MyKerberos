@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui.home;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,8 @@ import com.bumptech.glide.load.engine.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import project.iot_software.mykerberos.R;
 
 public class SelectionAdapter extends ArrayAdapter<String> {
 

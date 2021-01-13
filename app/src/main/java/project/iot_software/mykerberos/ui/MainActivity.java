@@ -1,4 +1,4 @@
-package project.iot_software.mykerberos;
+package project.iot_software.mykerberos.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
-import java.util.concurrent.locks.Lock;
+
+import project.iot_software.mykerberos.R;
+import project.iot_software.mykerberos.ui.home.HomeActivity;
+import project.iot_software.mykerberos.ui.setting.LockActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREF_FIRST_USER_KEY = "1000";
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         String text = et.getText().toString();
 
 
-        if(text.equals(/*"123456"*/serialNumber)){
+        if(text.equals(serialNumber)){
             Log.d("serialserial", serialNumber);
             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
