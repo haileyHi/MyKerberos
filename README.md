@@ -5,5 +5,5 @@ check any detection in front of my house
 Motion Detection System
 using RaspberryPi3 and Android application
 
- When the motion is detected, RaspberryPi takes a short video(with RaspberryPi Camera) to let the user know what happens in realtime.
+ When the motion is detected, RaspberryPi takes a short video(with RaspberryPi Camera) to let users know what happens in realtime.
  We designed to make users could check those videos by sending them android push notifications.
